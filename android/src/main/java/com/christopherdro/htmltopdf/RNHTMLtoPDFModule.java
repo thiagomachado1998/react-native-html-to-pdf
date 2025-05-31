@@ -82,15 +82,16 @@ public class RNHTMLtoPDFModule extends ReactContextBaseJavaModule {
       PrintAttributes pagesize=null;
       if(options.hasKey(HEIGHT) && options.hasKey(WIDTH)) {
         pagesize=new PrintAttributes.Builder()
-                .setMediaSize(new PrintAttributes.MediaSize("custom","CUSTOM",
-                        (int)(options.getInt(WIDTH)*1000/72.0),
-                        (int)(options.getInt(HEIGHT)*1000/72.0))
-                )
+                .setMediaSize(PrintAttributes.MediaSize.ISO_A4) 
                 .setResolution(new PrintAttributes.Resolution("RESOLUTION_ID", "RESOLUTION_ID", 600, 600))
-                .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
+                .setMinMargins(new PrintAttributes.Margins(
+                  30, // padding left
+                  60, // padding top
+                  30, // padding rigth
+                  60   // padding bottom
+          ))
                 .build();
       }
-
       convertToPDF(htmlString,
               destinationFile,
               options.hasKey(BASE_64) && options.getBoolean(BASE_64),
@@ -121,4 +122,3 @@ public class RNHTMLtoPDFModule extends ReactContextBaseJavaModule {
     return new File(fileName).getCanonicalFile().getName().equals(fileName);
   }
 }
-
