@@ -98,20 +98,16 @@ class HtmlToPdfModule(private val reactContext: ReactApplicationContext) :
                 val width = options.getInt(WIDTH)
                 val height = options.getInt(HEIGHT)
                 Log.d(TAG, "Custom page size: ${width}x${height}")
-
-                PrintAttributes.Builder()
-                    .setMediaSize(
-                        PrintAttributes.MediaSize(
-                            "custom", "CUSTOM",
-                            (width * 1000 / 72.0).toInt(),
-                            (height * 1000 / 72.0).toInt()
-                        )
-                    )
-                    .setResolution(
-                        PrintAttributes.Resolution("RESOLUTION_ID", "RESOLUTION_ID", 600, 600)
-                    )
-                    .setMinMargins(PrintAttributes.Margins.NO_MARGINS)
-                    .build()
+   PrintAttributes.Builder()
+                 .setMediaSize(PrintAttributes.MediaSize.ISO_A4)
+                 .setResolution( PrintAttributes.Resolution("RESOLUTION_ID", "RESOLUTION_ID", 600, 600))
+                 .setMinMargins( PrintAttributes.Margins(
+                     30, // padding Left
+                     60, // padding top
+                     30, // padding rigth
+                     60  // padding bottom
+                 ))
+                 .build();
             } else {
                 null
             }
@@ -192,3 +188,4 @@ class HtmlToPdfModule(private val reactContext: ReactApplicationContext) :
         return File(fileName).canonicalFile.name == fileName
     }
 }
+
